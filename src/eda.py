@@ -17,7 +17,7 @@ def hist_hover(dataframe, column, bins=30, log_scale=False,
     A function for creating a bokeh histogram with hovertool interactivity
     """
     # build histogram data
-    hist, edges = np.histogram(dataframe[column], bins = 30)
+    hist, edges = np.histogram(dataframe[column], bins = bins)
     hist_df = pd.DataFrame({column: hist,
                              "left": edges[:-1],
                              "right": edges[1:]})
@@ -55,13 +55,13 @@ def hist_hover(dataframe, column, bins=30, log_scale=False,
     else:
         return plot
 
-def histotabs(dataframe, features, colors=['SteelBlue', 'Tan'], log_scale=False, show_plot=True):
+def histotabs(dataframe, features, bins=30, colors=['SteelBlue', 'Tan'], log_scale=False, show_plot=True):
     '''
     Builds tabbed interface for a series of histograms; relies on hist_hover
     '''
     hists = []
     for f in features:
-        h = hist_hover(dataframe, f, colors=colors, log_scale=log_scale, show_plot=show_plot)
+        h = hist_hover(dataframe, f, bins=bins, colors=colors, log_scale=log_scale, show_plot=show_plot)
         p = Panel(child=h, title=f.capitalize())
         hists.append(p)
     t = Tabs(tabs=hists)
